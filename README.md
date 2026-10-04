@@ -2,24 +2,33 @@
 
 A browser-based document editor for creating, editing, and exporting Standard Operating Procedure (SOP) documents. Runs entirely client-side with no server upload required.
 
-## Features
+## Current Implementation Status (STAGE-00 Complete)
 
-- Create new SOP documents with a rich-text editor
-- Five document templates (Corporate Professional, Industrial, Modern Minimal, Quality/Compliance, Technical)
-- Structured SOP content sections
-- Editable tables
-- Images with captions and numbering
-- Callout blocks (Information, Note, Warning, Danger, Tip)
-- Equations
-- Procedure steps
-- Table of Contents
-- Headers and footers
-- DOCX and PDF export
-- Markdown and DOCX import
-- Local storage for settings
-- IndexedDB for document drafts
-- Project file export/import (.sopstudio)
-- Accessible and responsive design
+### Implemented
+- React + TypeScript project structure
+- Vite build system and development server
+- Application entry point with routing
+- 6 routes: /, /new, /templates, /settings, /preview, /export
+- Global CSS design token system
+- Application shell (Header, MainLayout, StatusArea)
+- Basic responsive layout foundation
+- Error boundary and fallback UI
+- Reusable UI primitives (Button, EmptyState, ConfirmDialog)
+- 5 template cards displayed in template gallery
+- Production build successful
+
+### Planned / Roadmap
+- Rich-text editor with formatting controls
+- Document model and state management
+- IndexedDB persistence for documents
+- Template engine with content switching
+- Metadata form
+- Document editing capabilities
+- Import (Markdown, DOCX)
+- Export (DOCX, PDF)
+- Preview with pagination
+- Validation engine
+- Settings and preferences
 
 ## Getting Started
 
@@ -107,3 +116,4 @@ All document processing and storage happens entirely in your browser. No documen
 ## License
 
 MIT
+

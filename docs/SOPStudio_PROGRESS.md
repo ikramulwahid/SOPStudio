@@ -1,13 +1,13 @@
 # SOPStudio Implementation Progress
 
 ## Current Stage
-STAGE-00 — Project Bootstrap and Blank Frame
+STAGE-01 — Architecture and Canonical Document Model
 
 ## Last Completed Stage
-None (initialization)
+STAGE-00 — Project Bootstrap and Blank Frame
 
 ## Overall Status
-Foundation
+Foundation / Stage 00 Complete
 
 ## Completed Capabilities
 - React + TypeScript project structure
@@ -22,18 +22,10 @@ Foundation
 - Reusable basic UI primitives (Button, EmptyState, ConfirmDialog)
 - All required routes (/, /new, /templates, /settings, /preview, /export)
 - Production build successful
+- STAGE-00 verified and pushed to GitHub (commit: e5f2ff406a316366748ba010fb3779ac9ff4b539)
 
 ## Current Stage Implementation
-- React + TypeScript project structure
-- Vite or equivalent modern frontend build system
-- Application entry point
-- Routing foundation
-- Global CSS/design-token system
-- Application shell
-- Desktop-first layout foundation
-- Basic responsive shell
-- Error boundary/fallback foundation
-- Reusable basic UI primitives where useful
+None yet — STAGE-01 not started
 
 ## Not Yet Implemented
 - Editor
@@ -132,3 +124,4 @@ npm run build
 npm run type-check
 npm run lint
 ```
+
