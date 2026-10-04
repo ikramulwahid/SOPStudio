@@ -1,0 +1,24 @@
+.status-area {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.status-icon {
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-bold);
+}
+
+.status-message {
+  font-weight: var(--font-weight-medium);
+}
+
+.status-submessage {
+  color: var(--text-tertiary);
+  margin-left: var(--space-sm);
+}

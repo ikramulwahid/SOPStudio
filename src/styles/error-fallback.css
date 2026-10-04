@@ -1,0 +1,74 @@
+.error-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-lg);
+  background: var(--bg-primary);
+}
+
+.error-fallback-content {
+  max-width: 500px;
+  text-align: center;
+}
+
+.error-fallback-content h1 {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-md);
+  color: var(--text-primary);
+}
+
+.error-fallback-message {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-lg);
+}
+
+.error-fallback-details {
+  margin: var(--space-lg) 0;
+  padding: var(--space-md);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  text-align: left;
+}
+
+.error-fallback-details summary {
+  cursor: pointer;
+  font-weight: var(--font-weight-medium);
+  color: var(--primary);
+  margin-bottom: var(--space-sm);
+}
+
+.error-fallback-details pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.error-fallback-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-inverse);
+  background: var(--primary);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.error-fallback-reset:hover {
+  background: var(--primary-hover);
+}
+
+.error-fallback-reset:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
