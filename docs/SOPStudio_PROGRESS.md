@@ -1,10 +1,10 @@
 # SOPStudio Implementation Progress
 
 ## Current Stage
-STAGE-01 — Architecture and Canonical Document Model
+STAGE-01 — Architecture and Canonical Document Model (Not Started)
 
 ## Last Completed Stage
-STAGE-00 — Project Bootstrap and Blank Frame
+STAGE-00 — Project Bootstrap and Blank Frame (COMPLETE)
 
 ## Overall Status
 Foundation / Stage 00 Complete
@@ -23,6 +23,9 @@ Foundation / Stage 00 Complete
 - All required routes (/, /new, /templates, /settings, /preview, /export)
 - Production build successful
 - STAGE-00 verified and pushed to GitHub (commit: e5f2ff406a316366748ba010fb3779ac9ff4b539)
+- Master specification restored with complete requirements and valid Markdown formatting
+- Acceptance matrix created with 33 individual criteria
+- AGENTS.md updated with authoritative references
 
 ## Current Stage Implementation
 None yet — STAGE-01 not started
@@ -54,14 +57,14 @@ None yet — STAGE-01 not started
 
 | ID | Requirement | Status |
 |----|-------------|--------|
-| AC-01 | Open without account | COMPLETE |
-| AC-02 | Create new SOP | NOT STARTED |
-| AC-03 | Five templates | PARTIAL (display only) |
-| AC-04 | Metadata | NOT STARTED |
-| AC-05 | Section management | NOT STARTED |
-| AC-06 | Rich text | NOT STARTED |
-| AC-07 | Numbered lists | NOT STARTED |
-| AC-08 | Tables | NOT STARTED |
+| AC-001 | Open without account | COMPLETE |
+| AC-002 | Create new SOP | NOT STARTED |
+| AC-003 | Five templates | PARTIAL (display only) |
+| AC-004 | Metadata | NOT STARTED |
+| AC-005 | Section management | NOT STARTED |
+| AC-006 | Rich text | NOT STARTED |
+| AC-007 | Numbered lists | NOT STARTED |
+| AC-008 | Tables | NOT STARTED |
 | AC-009 | Images | NOT STARTED |
 | AC-010 | Equations | NOT STARTED |
 | AC-011 | Procedure steps | NOT STARTED |
@@ -124,4 +127,3 @@ npm run build
 npm run type-check
 npm run lint
 ```
-

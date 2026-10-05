@@ -1,1 +1,1918 @@
-# SOPStudio Master Specification\n\n## Product Overview\n\nSOPStudio is a browser-based document editor for creating, editing, and exporting Standard Operating Procedure (SOP) documents. The application runs entirely client-side with no server upload required.## Core Capabilities\n\n### Document Management\n- Create new SOP documents\n- Edit documents using a rich-text editor\n- Switch between multiple document templates\n- Apply document branding and styling\n- Validate document quality\n\n### Templates\nFive predefined templates:\n1. Corporate Professional\n2. Industrial\n3. Modern Minimal\n4. Quality / Compliance\n5. Technical\n\n### Document Structure\nStandard SOP structure:\n1. Document Information\n2. Purpose\n3. Scope\n4. Responsibilities\n5. Definitions\n6. Prerequisites\n7. Required Materials / Tools\n8. Safety / Precautions\n9. Procedure\n10. Process Flow\n11. Troubleshooting\n12. Quality Checks\n13. References\n14. Records / Documentation\n15. Revision History\n16. Approval\n\n### Content Features\n- Rich text editing (bold, italic, underline, etc.)\n- Structured lists (bulleted, numbered, nested)\n- Editable tables\n- Images with captions and numbering\n- Callout blocks (Information, Note, Warning, Danger, Tip)\n- Equations (symbols, superscripts, subscripts)\n- Procedure steps\n- Table of Contents\n- Headers and footers\n\n### Export\n- DOCX export\n- PDF export\n\n### Import\n- Markdown import\n- DOCX import (browser-compatible)\n\n### Persistence\n- Local storage for settings\n- IndexedDB for document drafts\n- Project file export/import (.sopstudio)\n\n### Accessibility\n- Keyboard navigation\n- Proper labels and ARIA\n- Focus management\n- Color contrast compliance\n- Screen reader support\n\n## Technology Requirements\n\n### Frontend Stack\n- React 18\n- TypeScript\n- Vite build system\n- React Router\n\n### Editor\n- Tiptap/ProseMirror (rich text)\n- Client-side only\n\n### Storage\n- IndexedDB for documents\n- LocalStorage for preferences\n\n### Export\n- DOCX: Browser-compatible library\n- PDF: Browser-compatible library\n\n## Design Principles\n- Client-side only processing\n- No document uploads\n- Privacy-first architecture\n- Accessible and responsive\n- Professional document fidelity\n\n## Architecture\n\n### Component-Driven Architecture\n- Separate document state from UI state\n- Separate editor state from document state\n- Separate persistence state from application state\n- Use reusable components\n\n### State Boundaries\n- Document state: Contains the canonical document model\n- Editor state: Contains editor-specific state (selection, focus, history)\n- UI state: Contains navigation, modal visibility, loading states\n- Persistence state: Contains IndexedDB operations, save status\n- Export state: Contains export configuration and progress\n\n### Canonical Document Model\nThe document content is stored in a structured model separate from presentation.\n\nDOCUMENT CONTENT = what the SOP contains\n\nTEMPLATE / STYLE = how the SOP looks\n\nThis separation enables:\n- Template switching without rebuilding document\n- Reusable rendering logic\n- Export to different formats from same content\n\n## Technology Stack\n\n### Core\n- **React 18** - UI library with hooks\n- **TypeScript** - Type safety and documentation\n- **Vite** - Build tool and dev server (fast HMR)\n- **React Router** - Client-side routing\n\n### Editor\n- **Tiptap/ProseMirror** - Rich text editing (future)\n- **KaTeX** - Mathematical equations (future)\n\n### Storage\n- **IndexedDB** - Document persistence (future)\n- **LocalStorage** - Lightweight preferences (future)\n\n### Export\n- **docx** - DOCX generation (future)\n- **pdf-lib** or **jspdf** - PDF generation (future)\n\n### Utilities\n- **JSZip** - Project file packaging (future)\n- **Mammoth.js** - DOCX import (future)\n- **DOMPurify** - HTML sanitization\n\n## Application Structure\n\n### Directory Structure\n```\nSOPStudio/\n├── src/\n│   ├── components/      # Reusable UI components\n│   │   ├── Editor/     # Editor-specific components (future)\n│   │   ├── Templates/  # Template components (future)\n│   │   └── Common/     # Shared components\n│   ├── pages/           # Page components\n│   ├── hooks/           # Custom React hooks\n│   ├── lib/             # Utility functions\n│   ├── styles/          # CSS modules and global styles\n│   ├── App.tsx          # Root application component\n│   ├── main.tsx         # Application entry point\n│   └── types/           # TypeScript type definitions\n├── docs/                # Documentation\n├── public/              # Static assets\n├── tests/               # Tests (future)\n├── package.json\n├── vite.config.ts\n├── tsconfig.json\n└── tsconfig.node.json\n```\n\n### Route Structure\n```\n/\n /new\n /templates\n /settings\n /preview\n /export\n```\n\n## Design System\n\n### Color Palette\n- **Primary**: #2563eb (blue)\n- **Secondary**: #64748b (slate)\n- **Success**: #22c55e (green)\n- **Warning**: #f59e0b (amber)\n- **Error**: #ef4444 (red)\n- **Background**: #ffffff / #f8f9fa\n- **Surface**: #ffffff / #f8f9fa\n- **Text**: #212529 / #6c757d\n\n### Typography\n- **Font**: System sans-serif stack\n- **Sizes**: xs, sm, base, lg, xl, 2xl, 3xl\n- **Weights**: normal, medium, semibold, bold\n\n### Spacing\n- **Scale**: 0.25rem, 0.5rem, 1rem, 1.5rem, 2rem, 3rem, 4rem\n\n### Radius\n- **Scale**: 0.25rem, 0.375rem, 0.5rem, 0.75rem, full\n\n### Shadows\n- **Scale**: sm, md, lg, xl\n\n### Components\n- **Buttons**: Primary, secondary, danger, ghost, link\n- **Inputs**: Text, number, date, select, checkbox\n- **Dialogs**: Modal, alert, confirm\n- **Toasts**: Success, error, warning, info\n- **Empty States**: Placeholder with optional action\n- **Progress**: Linear, circular\n\n## Home Page\n\n### Purpose\n- Display application overview\n- Provide quick navigation\n- Communicate privacy (no server upload)\n\n### Features\n- Welcome message\n- Quick actions (Create New SOP, Browse Templates)\n- Recent documents list (architecturally ready)\n- Status area showing save state\n\n### Content\n- Title and subtitle\n- Your documents remain on this device. No account or server upload is required.\n- Template selection entry point\n- Import SOP entry point\n\n## Templates\n\n### Five Templates\n1. Corporate Professional: Clean, professional layout\n2. Industrial: Structured layout for industrial procedures\n3. Modern Minimal: Simple, modern design\n4. Quality / Compliance: Comprehensive layout for QMS\n5. Technical: Technical documentation format\n\n### Template System\n- Template configuration object\n- Visual preview\n- Selection mechanism\n- Switching without content loss\n\n## New Document Flow\n\n### Flow\nHome\n- Create New SOP\n- Select Template\n- Metadata\n- Create Document\n- Editor shell\n\n### Template Selection\n- Display 5 template cards\n- Show template preview\n- Click to select\n\n### Metadata Form\nRequired fields:\n- Title\n- Document ID / SOP Number\n- Version\n- Effective Date\n- Review Date\n- Department\n- Process Owner\n- Author\n- Approver\n- Confidentiality\n- Status\n\nStatus:\n- Draft\n- Under Review\n- Approved\n- Obsolete\n\nOptional fields:\n- Company/Organization\n- Location\n- Category\n- Document Owner\n- Prepared By\n- Reviewed By\n- Approved By\n- Revision Summary\n- Keywords/Tags\n- Reference Documents\n\n### Validation\n- Required field validation\n- Date validation\n- Automatic creation date\n- Duplicate document-ID validation architecture\n\n## Document Model\n\n### Core Types\n- Document\n- DocumentMetadata\n- DocumentStyle\n- PageSettings\n- Branding\n- Section\n- ContentBlock\n- ImageAsset\n- Revision\n- Approval\n- ValidationResult\n- DocumentSettings\n\n### Separation\nDOCUMENT CONTENT = what the SOP contains\n\nTEMPLATE / STYLE = how the SOP looks\n\n### Serialization\n- JSON serialization/deserialization\n- Versioning support\n\n## Editor\n\n### Features\n- Rich text editing\n- Formatting controls\n- Keyboard shortcuts\n- Undo/redo\n- Selection handling\n\n### Supported Formatting\n- Bold, italic, underline, strikethrough\n- Font family\n- Font size\n- Text color\n- Highlight\n- Alignment\n- Justification\n- Line spacing\n- Paragraph spacing\n- Indentation\n- Superscript, subscript\n\n### Heading Levels\n- Title\n- H1\n- H2\n- H3\n- H4\n- Normal\n\n### Keyboard Shortcuts\n- Ctrl/Cmd+Z: Undo\n- Ctrl/Cmd+Y: Redo\n- Ctrl/Cmd+S: Save\n- Ctrl/Cmd+B: Bold\n- Ctrl/Cmd+I: Italic\n- Ctrl/Cmd+U: Underline\n\n## Lists\n\n### Features\n- Bulleted lists\n- Numbered lists\n- Nested lists\n- Custom numbering architecture where practical\n\n### Outline Panel\n- Live outline from headings\n- Hierarchy display\n- Collapsible sections\n- Section selection\n- Rename sections\n- Add subsections\n- Duplicate sections\n- Delete sections\n- Reorder sections\n\n### Drag and Drop Reordering\n- Drag table rows\n- Drag procedure steps\n- Drag outline sections\n- Keyboard alternative for accessibility\n\n## Tables\n\n### Features\n- Insert table\n- Add/delete rows/columns\n- Merge/split cells\n- Cell alignment\n- Cell background\n- Borders\n- Header row\n- Column resizing\n- Table width\n- Caption\n- Table numbering\n\n### Predefined Structures\n- Revision History\n- Responsibilities\n- Materials\n- Equipment\n- Approval\n- Troubleshooting\n- Document Control\n\n## Images\n\n### Features\n- File upload\n- Paste\n- Drag/drop\n- Resize\n- Alignment\n- Border\n- Caption\n- Automatic figure numbering\n- Alt text\n- Delete\n- Move\n\n### Asset Model\n- Separate from editor UI state\n- MIME type validation\n- Client-side only processing\n\n## Equations\n\n### Features\n- Symbol insertion\n- Superscripts\n- Subscripts\n- Common mathematical expressions\n- Equation insertion UI\n- KaTeX rendering\n\n## Procedure Steps\n\n### Features\n- Step with action\n- Expected result\n- Warning\n- Note\n- Image attachment\n- Add step\n- Delete step\n- Duplicate step\n- Reorder steps\n- Automatic numbering\n\n## Callouts\n\n### Types\n- Information\n- Note\n- Warning\n- Danger\n- Tip\n\n### Features\n- Reusable component\n- Inherit template styling\n- Consistent appearance\n\n## Automatic Numbering\n\n### Features\n- Section numbering\n- Subsection numbering\n- Procedure step numbering\n- Table numbering\n- Figure numbering\n- Recalculate after reordering\n\n## Table of Contents\n\n### Features\n- Live TOC from headings\n- Respond to heading changes\n- Separate structural TOC and final TOC\n\n## Revision History\n\n### Features\n- Version tracking\n- Date tracking\n- Description\n- Prepared By\n- Reviewed By\n- Approved By\n- Add revision\n- Edit revision\n- Delete revision\n- Reorder revisions\n\n## Approval\n\n### Features\n- Prepared By\n- Reviewed By\n- Approved By\n- Role column\n- Name column\n- Signature column\n- Date column\n- Text signature\n- Uploaded signature image\n- Blank signature area\n\n## Import\n\n### Markdown Import\n- Headings\n- Paragraphs\n- Lists\n- Tables where supported\n- Basic formatting\n- Code blocks where relevant\n\n### DOCX Import\n- Use Mammoth.js\n- Preserve text\n- Preserve headings\n- Preserve lists\n- Preserve tables\n- Preserve images\n- Preserve basic formatting\n\n### Safety\n- HTML sanitization for pasted/imported HTML\n- No execution of imported scripts\n- Validate file types\n- Warn about unsupported content\n\n### Import Report\nShow summary:\n- Number of headings detected\n- Number of tables imported\n- Number of images imported\n- Number of paragraphs imported\n- Number of formatting elements simplified\n\n## Drag and Drop\n\n### Features\n- Drag table rows\n- Drag procedure steps\n- Drag outline sections\n- Keyboard alternative for accessibility\n\n## Copy and Paste\n\n### Features\n- Word/Google Docs/browser rich-text paste\n- Paste as plain text option\n- Paste as HTML option\n- HTML sanitization\n- Safe handling of pasted tables/images\n\n## Search and Replace\n\n### Features\n- Search text\n- Replace text\n- Replace all\n- Case-sensitive matching\n- Whole-word matching\n- Match count\n- Highlighted matches\n\n## Validation\n\n### Severity Levels\n- ERROR\n- WARNING\n- INFO\n\n### Validations\n- Required metadata\n- Required title\n- Required document ID where configured\n- Version validation\n- Required SOP sections\n- Empty headings\n- Images without alt text\n- Images without captions\n- Missing approval information\n- Broken/empty tables\n- Missing revision history where applicable\n- Invalid dates\n- Duplicate document IDs among local drafts where practical\n\n### Display\n- Finding\n- Severity\n- Affected location\n- Explanation\n- Remediation suggestion\n\n### Readiness Summary\n- Overall document status\n- Number of errors/warnings\n\n## Preview\n\n### Features\n- Document rendering\n- Page boundaries\n- Margins\n- Typography\n- Tables\n- Images\n- Callouts\n- TOC\n- Headers/footers\n- Page numbers\n\n### Controls\n- Zoom in/out\n- Page navigation\n- Fit to width\n- Fit to page\n\n### Page Breaking\n- Keep headings with following content where practical\n- Avoid awkward callout splits\n- Avoid unnecessary procedure-step splits\n- Avoid unnecessary table-row splits\n\n## DOCX Export\n\n### Features\n- DOCX file generation\n- Browser-compatible library\n\n### Content\n- Document metadata\n- Headings\n- Lists\n- Tables\n- Images\n- Captions\n- Numbering\n- Headers\n- Footers\n- Page settings\n- Template styling\n- Revision history\n- Approval section\n- Equations where technically possible\n\n### Export Dialog\n- Document name\n- Format (DOCX only)\n- Editable filename\n- Cancel\n- Export\n\n### Filename\n- Format: DocumentID_Title_vVersion\n- Sanitize invalid filesystem characters\n\n### Feedback\n- Preparing DOCX...\n- Success/failure message\n\n### Limitations\n- Report fidelity limitations honestly\n- Never claim perfect Word compatibility\n\n## PDF Export\n\n### Features\n- PDF file generation\n- Browser-compatible library\n\n### Content\n- Page dimensions\n- Margins\n- Typography\n- Headings\n- Tables\n- Images\n- Callouts\n- Headers\n- Footers\n- Page numbers\n- Colors\n- Document structure\n\n### Export Dialog\n- Document name\n- Format (PDF only)\n- Editable filename\n- Cancel\n- Export\n\n### Feedback\n- Progress feedback\n- Success/failure message\n\n### Limitations\n- Report unavoidable browser/library limitations honestly\n\n## Local Persistence\n\n### Features\n- Create draft\n- Save\n- Autosave\n- Load\n- Recover\n- Delete\n- Recent documents\n- Modified timestamps\n- Save status\n\n### Save States\n- Saving...\n- Saved just now\n- Unsaved changes\n\n### Autosave\n- Debounced\n- Configurable interval\n\n### IndexedDB\n- Document data\n- Assets\n\n### LocalStorage\n- Lightweight settings\n\n### Error Handling\n- Storage unavailable\n- Storage quota exceeded\n- Corrupted stored data\n- Failed save\n- Failed load\n\n### Unsaved Changes\n- Protection for destructive navigation where appropriate\n- Confirmation dialogs where appropriate\n\n## Project Files (.sopstudio)\n\n### Features\n- Project package containing:\n  - project.json\n  - document.json\n  - settings.json\n  - assets/\n- Save Project\n- Download .sopstudio\n- Open Project\n- Validate package\n- Load document\n- Load assets\n- Continue editing\n\n### Preservation\n- SOP content\n- Metadata\n- Template\n- Branding\n- Page settings\n- Revision history\n- Approval\n- Images/assets\n- Formatting configuration\n\n### Validation\n- Validate imported project files\n- Reject malformed packages\n- Never execute package content as code\n\n### Serialization\n- JSZip for packaging\n- JSON for project data\n\n## Undo/Redo\n\n### Features\n- Full edit history\n- Ctrl/Cmd+Z\n- Ctrl/Cmd+Y\n- History management\n\n## Accessibility\n\n### Features\n- Keyboard navigation\n- Proper labels\n- ARIA where appropriate\n- Focus management\n- Visible focus indicators\n- Color contrast compliance\n- Accessible dialogs\n- Accessible tables\n- Alt text for images\n- Keyboard alternatives to drag/drop\n- Status communication without relying only on color\n\n## Responsive Design\n\n### Desktop\n- Three-panel editor layout\n\n### Tablet/Smaller\n- Convert side panels to tabs/drawers\n- Retain editing capability\n- Avoid forcing desktop layout onto small screens\n\n## Settings\n\n### Document Defaults\n- Default template\n- Default font\n- Default page size\n- Default margins\n- Default orientation\n\n### Editor\n- Autosave\n- Spellcheck\n- Formatting marks if implemented\n\n### Appearance\n- Light theme\n- Dark theme\n- System theme\n\n### Privacy\n- Documents are processed and stored locally in your browser. SOPStudio does not require an account or upload your documents to a server.\n\n## Error Handling\n\n### Features\n- Error boundaries\n- Clear error messages\n- User-friendly error UI\n- Recovery options\n\n### Error Types\n- Import failure\n- Export failure\n- Storage failure\n- Malformed project file\n- Invalid image\n- Unsupported content\n- Corrupted document state\n\n### Feedback\n- Clear error messages\n- Actionable suggestions\n- Recovery options\n\n## Security\n\n### Features\n- No document uploads\n- No hidden remote calls\n- HTML sanitization\n- Validate file types\n- Validate MIME types\n- Reject executable content\n- Treat imported files as untrusted\n- No analytics exposing document content\n\n### Input Validation\n- File type validation\n- MIME type validation\n- Size limits\n- Content validation\n\n## Performance\n\n### Features\n- Efficient editor rendering\n- Lazy loading where useful\n- Optimized autosave\n- Optimized preview generation\n- Optimized export performance\n\n### Optimization Targets\n- Editor rerenders\n- Large documents\n- Large tables\n- Image processing\n- Autosave frequency\n- Preview generation\n- Export performance\n\n## Component Architecture\n\n### Component Organization\n- Feature-based organization\n- Shared components\n- Presentation vs container components\n\n### State Management\n- Local state within components\n- Context for global state\n- No global state management library\n\n## Document Rendering\n\n### Features\n- Separate rendering from editing\n- Reusable rendering rules\n- Support for different formats\n\n### Rendering Components\n- DocumentCanvas\n- DocumentPage\n- Rendered content blocks\n\n## Page Breaks\n\n### Features\n- Smart page breaking\n- Keep content together where practical\n- Avoid awkward splits\n\n## Import/Export Limitations\n\n### Honest Reporting\n- Report what cannot be imported/exported\n- Report fidelity limitations\n- Provide workarounds where possible\n\n## MVP Priorities\n\n### Priority Order\n1. Document model\n2. Editor\n3. Persistence\n4. Preview\n5. Export\n\n### Minimal Viable Product\n- Core document editing\n- Basic templates\n- Local persistence\n- Preview\n- DOCX export\n\n## Testing\n\n### Types\n- Unit tests\n- Integration tests\n- UI tests\n\n### Coverage\n- Important logic\n- Edge cases\n- Error paths\n\n## Development Approach\n\n### Incremental\n- One stage at a time\n- Verify before proceeding\n- Do not skip stages\n- Do not combine stages\n- Do not rebuild working functionality\n- Preserve existing functionality\n- Fix prerequisite defects only when needed\n\n### Quality\n- Tests for important logic\n- Build verification\n- Manual verification\n- Inspect git diff\n- Update progress file\n- Record incomplete work\n- State exactly what is complete\n- State next recommended prompt\n\n### Documentation\n- Progress tracking\n- Decision recording\n- Acceptance criteria\n\n### Verification\n- Run tests\n- Run type checking\n- Run lint\n- Run production build\n- Manual verification\n- Inspect final git diff\n- Update progress file\n- Record incomplete work\n- State exactly what is complete\n- State next recommended prompt\n\n### Stop After Each Stage\n- Do not implement the next stage\n- The progress file must always describe the actual repository state, not the intended state.\n\n## UX Rules\n\n### Feedback\n- Every major operation shows feedback\n- Clear success/error messages\n- Loading states\n\n### Confirmation\n- Destructive actions require confirmation\n- Unsaved change warnings\n\n### Empty States\n- Clear messaging\n- Helpful suggestions\n- Actionable next steps\n\n## Confirmation Dialogs\n\n### Features\n- Destructive action confirmation\n- Unsaved changes warning\n- Customizable content\n\n### UI\n- Modal dialog\n- Clear message\n- Confirm/Cancel buttons\n\n## Unsaved Changes\n\n### Features\n- Detect unsaved changes\n- Warn before navigation\n- Option to save or discard\n\n### Protection\n- Block navigation without confirmation\n- Offer save option\n\n## Privacy\n\n### Messaging\n- Your documents remain on this device. No account or server upload is required.\n- Documents are processed and stored locally in your browser.\n\n### Guarantees\n- No document uploads\n- No analytics exposing document content\n- Client-side only processing\n\n## Final Quality Bar\n\n### Requirements\n- Reliable editing\n- Professional UX\n- Document fidelity\n- Preview/export consistency\n- Persistence reliability\n- Validation correctness\n- Accessibility\n- Responsive behavior\n- Error handling\n- Maintainability\n\n### Final Deliverables\n- Complete application\n- Working templates\n- Working editor\n- Working import\n- Working export\n- Working preview\n- Working persistence\n- Complete acceptance criteria\n- Comprehensive tests\n\n## README Requirements\n\n### Content\n- Product overview\n- Architecture\n- Technology choices\n- Installation\n- Development commands\n- Production build\n- Document model\n- Template system\n- Persistence\n- Import limitations\n- Export limitations\n- Browser compatibility\n- Privacy model\n- Known limitations\n- Future extension points\n\n## Final Coding-Agent Instructions\n\n### Agent Behavior\n- Read control files first\n- Inspect current implementation\n- Determine earliest incomplete stage\n- Follow incremental development\n- Verify before proceeding\n- Record state before stopping\n\n### Control Files\n- SOPStudio_MASTER_SPEC.md (authoritative)\n- SOPStudio_PROGRESS.md (implementation state)\n- SOPStudio_DECISIONS.md (architectural decisions)\n- SOPStudio_ACCEPTANCE_MATRIX.md (acceptance criteria)\n\n### Development Rules\n- Implement only assigned stage\n- Do not skip stages\n- Do not combine stages\n- Do not rebuild working functionality\n- Preserve existing functionality\n- Fix prerequisite defects only when needed\n\n### Verification\n- Run tests\n- Run type checking\n- Run lint\n- Run production build\n- Manual verification\n- Inspect git diff\n- Update progress file\n- Record incomplete work\n- State exactly what is complete\n- State next recommended prompt\n\n### Stop After Each Stage\n- Do not implement the next stage\n- The progress file must always describe the actual repository state, not the intended state.\n\n## Stage Dependency Map\n\nThe intended dependency order is:\n\nSTAGE-00\n  ↓\nSTAGE-01\n  ↓\nSTAGE-02\n  ↓\nSTAGE-03\n  ↓\nSTAGE-04\n  ↓\nSTAGE-05\n  ↓\nSTAGE-06\n  ↓\nSTAGE-07\n  ↓\nSTAGE-08\n  ↓\nSTAGE-09\n  ↓\nSTAGE-10\n  ↓\nSTAGE-11\n  ↓\nSTAGE-12\n  ↓\nSTAGE-13\n  ↓\nSTAGE-14\n  ↓\nSTAGE-15\n  ↓\nSTAGE-16\n  ↓\nSTAGE-17\n  ↓\nSTAGE-18\n  ↓\nSTAGE-19\n  ↓\nSTAGE-20\n  ↓\nSTAGE-21\n  ↓\nSTAGE-22\n  ↓\nSTAGE-23\n  ↓\nSTAGE-24\n\nThe particularly important architectural sequence is:\n\nDocument Model\n  ↓\nEditor\n  ↓\nStructured Content\n  ↓\nPersistence\n  ↓\nImport\n  ↓\nRendering\n  ↓\nDOCX/PDF Export\n  ↓\nValidation\n  ↓\nHardening\n\nThis prevents the common AI-agent failure mode of building the export UI before there is a stable canonical document model.
+# SOPStudio Master Specification
+
+## Product Overview
+
+SOPStudio is a browser-based document editor for creating, editing, and exporting Standard Operating Procedure (SOP) documents. The application runs entirely client-side with no server upload required.
+
+## Core Capabilities
+
+### Document Management
+
+- Create new SOP documents
+- Edit documents using a rich-text editor
+- Switch between multiple document templates
+- Apply document branding and styling
+- Validate document quality
+
+### Templates
+
+Five predefined templates:
+
+1. Corporate Professional
+2. Industrial
+3. Modern Minimal
+4. Quality / Compliance
+5. Technical
+
+### Document Structure
+
+Standard SOP structure:
+
+1. Document Information
+2. Purpose
+3. Scope
+4. Responsibilities
+5. Definitions
+6. Prerequisites
+7. Required Materials / Tools
+8. Safety / Precautions
+9. Procedure
+10. Process Flow
+11. Troubleshooting
+12. Quality Checks
+13. References
+14. Records / Documentation
+15. Revision History
+16. Approval
+
+### Content Features
+
+- Rich text editing (bold, italic, underline, etc.)
+- Structured lists (bulleted, numbered, nested)
+- Editable tables
+- Images with captions and numbering
+- Callout blocks (Information, Note, Warning, Danger, Tip)
+- Equations (symbols, superscripts, subscripts)
+- Procedure steps
+- Table of Contents
+- Headers and footers
+
+### Export
+
+- DOCX export
+- PDF export
+
+### Import
+
+- Markdown import
+- DOCX import (browser-compatible)
+
+### Persistence
+
+- Local storage for settings
+- IndexedDB for document drafts
+- Project file export/import (.sopstudio)
+
+### Accessibility
+
+- Keyboard navigation
+- Proper labels and ARIA
+- Focus management
+- Color contrast compliance
+- Screen reader support
+
+## Technology Requirements
+
+### Frontend Stack
+
+- React 18
+- TypeScript
+- Vite build system
+- React Router
+
+### Editor
+
+- Tiptap/ProseMirror (rich text)
+- Client-side only
+
+### Storage
+
+- IndexedDB for documents
+- LocalStorage for preferences
+
+### Export
+
+- DOCX: Browser-compatible library
+- PDF: Browser-compatible library
+
+## Design Principles
+
+- Client-side only processing
+- No document uploads
+- Privacy-first architecture
+- Accessible and responsive
+- Professional document fidelity
+
+## Architecture
+
+### Component-Driven Architecture
+
+- Separate document state from UI state
+- Separate editor state from document state
+- Separate persistence state from application state
+- Use reusable components
+
+### State Boundaries
+
+- Document state: Contains the canonical document model
+- Editor state: Contains editor-specific state (selection, focus, history)
+- UI state: Contains navigation, modal visibility, loading states
+- Persistence state: Contains IndexedDB operations, save status
+- Export state: Contains export configuration and progress
+
+### Canonical Document Model
+
+The document content is stored in a structured model separate from presentation.
+
+DOCUMENT CONTENT = what the SOP contains
+
+TEMPLATE / STYLE = how the SOP looks
+
+This separation enables:
+- Template switching without rebuilding document
+- Reusable rendering logic
+- Export to different formats from same content
+
+## Technology Stack
+
+### Core
+
+- **React 18** - UI library with hooks
+- **TypeScript** - Type safety and documentation
+- **Vite** - Build tool and dev server (fast HMR)
+- **React Router** - Client-side routing
+
+### Editor
+
+- **Tiptap/ProseMirror** - Rich text editing (future)
+- **KaTeX** - Mathematical equations (future)
+
+### Storage
+
+- **IndexedDB** - Document persistence (future)
+- **LocalStorage** - Lightweight preferences (future)
+
+### Export
+
+- **docx** - DOCX generation (future)
+- **pdf-lib** or **jspdf** - PDF generation (future)
+
+### Utilities
+
+- **JSZip** - Project file packaging (future)
+- **Mammoth.js** - DOCX import (future)
+- **DOMPurify** - HTML sanitization
+
+## Application Structure
+
+### Directory Structure
+
+```
+SOPStudio/
+├── src/
+│   ├── components/      # Reusable UI components
+│   │   ├── Editor/     # Editor-specific components (future)
+│   │   ├── Templates/  # Template components (future)
+│   │   └── Common/     # Shared components
+│   ├── pages/           # Page components
+│   ├── hooks/           # Custom React hooks
+│   ├── lib/             # Utility functions
+│   ├── styles/          # CSS modules and global styles
+│   ├── App.tsx          # Root application component
+│   ├── main.tsx         # Application entry point
+│   └── types/           # TypeScript type definitions
+├── docs/                # Documentation
+├── public/              # Static assets
+├── tests/               # Tests (future)
+├── package.json
+├── vite.config.ts
+├── tsconfig.json
+└── tsconfig.node.json
+```
+
+### Route Structure
+
+```
+/
+ /new
+ /templates
+ /settings
+ /preview
+ /export
+```
+
+## Design System
+
+### Color Palette
+
+- **Primary**: #2563eb (blue)
+- **Secondary**: #64748b (slate)
+- **Success**: #22c55e (green)
+- **Warning**: #f59e0b (amber)
+- **Error**: #ef4444 (red)
+- **Background**: #ffffff / #f8f9fa
+- **Surface**: #ffffff / #f8f9fa
+- **Text**: #212529 / #6c757d
+
+### Typography
+
+- **Font**: System sans-serif stack
+- **Sizes**: xs, sm, base, lg, xl, 2xl, 3xl
+- **Weights**: normal, medium, semibold, bold
+
+### Spacing
+
+- **Scale**: 0.25rem, 0.5rem, 1rem, 1.5rem, 2rem, 3rem, 4rem
+
+### Radius
+
+- **Scale**: 0.25rem, 0.375rem, 0.5rem, 0.75rem, full
+
+### Shadows
+
+- **Scale**: sm, md, lg, xl
+
+### Components
+
+- **Buttons**: Primary, secondary, danger, ghost, link
+- **Inputs**: Text, number, date, select, checkbox
+- **Dialogs**: Modal, alert, confirm
+- **Toasts**: Success, error, warning, info
+- **Empty States**: Placeholder with optional action
+- **Progress**: Linear, circular
+
+## Home Page
+
+### Purpose
+
+- Display application overview
+- Provide quick navigation
+- Communicate privacy (no server upload)
+
+### Features
+
+- Welcome message
+- Quick actions (Create New SOP, Browse Templates)
+- Recent documents list (architecturally ready)
+- Status area showing save state
+
+### Content
+
+- Title and subtitle
+- Your documents remain on this device. No account or server upload is required.
+- Template selection entry point
+- Import SOP entry point
+
+## Templates
+
+### Five Templates
+
+1. Corporate Professional: Clean, professional layout
+2. Industrial: Structured layout for industrial procedures
+3. Modern Minimal: Simple, modern design
+4. Quality / Compliance: Comprehensive layout for QMS
+5. Technical: Technical documentation format
+
+### Template System
+
+- Template configuration object
+- Visual preview
+- Selection mechanism
+- Switching without content loss
+
+## New Document Flow
+
+### Flow
+
+Home
+- Create New SOP
+- Select Template
+- Metadata
+- Create Document
+- Editor shell
+
+### Template Selection
+
+- Display 5 template cards
+- Show template preview
+- Click to select
+
+### Metadata Form
+
+Required fields:
+
+- Title
+- Document ID / SOP Number
+- Version
+- Effective Date
+- Review Date
+- Department
+- Process Owner
+- Author
+- Approver
+- Confidentiality
+- Status
+
+Status:
+
+- Draft
+- Under Review
+- Approved
+- Obsolete
+
+Optional fields:
+
+- Company/Organization
+- Location
+- Category
+- Document Owner
+- Prepared By
+- Reviewed By
+- Approved By
+- Revision Summary
+- Keywords/Tags
+- Reference Documents
+
+### Validation
+
+- Required field validation
+- Date validation
+- Automatic creation date
+- Duplicate document-ID validation architecture
+
+## Document Model
+
+### Core Types
+
+- Document
+- DocumentMetadata
+- DocumentStyle
+- PageSettings
+- Branding
+- Section
+- ContentBlock
+- ImageAsset
+- Revision
+- Approval
+- ValidationResult
+- DocumentSettings
+
+### Separation
+
+DOCUMENT CONTENT = what the SOP contains
+
+TEMPLATE / STYLE = how the SOP looks
+
+### Serialization
+
+- JSON serialization/deserialization
+- Versioning support
+
+## Editor
+
+### Features
+
+- Rich text editing
+- Formatting controls
+- Keyboard shortcuts
+- Undo/redo
+- Selection handling
+
+### Supported Formatting
+
+- Bold, italic, underline, strikethrough
+- Font family
+- Font size
+- Text color
+- Highlight
+- Alignment
+- Justification
+- Line spacing
+- Paragraph spacing
+- Indentation
+- Superscript, subscript
+
+### Heading Levels
+
+- Title
+- H1
+- H2
+- H3
+- H4
+- Normal
+
+### Keyboard Shortcuts
+
+- Ctrl/Cmd+Z: Undo
+- Ctrl/Cmd+Y: Redo
+- Ctrl/Cmd+S: Save
+- Ctrl/Cmd+B: Bold
+- Ctrl/Cmd+I: Italic
+- Ctrl/Cmd+U: Underline
+
+## Lists
+
+### Features
+
+- Bulleted lists
+
+- Numbered lists
+
+- Nested lists
+
+- Custom numbering architecture where practical
+
+### Outline Panel
+
+- Live outline from headings
+
+- Hierarchy display
+
+- Collapsible sections
+
+- Section selection
+
+- Rename sections
+
+- Add subsections
+
+- Duplicate sections
+
+- Delete sections
+
+- Reorder sections
+
+### Drag and Drop Reordering
+
+- Drag table rows
+
+- Drag procedure steps
+
+- Drag outline sections
+
+- Keyboard alternative for accessibility
+
+## Tables
+
+### Features
+
+- Insert table
+- Add/delete rows/columns
+- Merge/split cells
+- Cell alignment
+- Cell background
+- Borders
+- Header row
+- Column resizing
+- Table width
+- Caption
+- Table numbering
+
+### Predefined Structures
+
+- Revision History
+
+- Responsibilities
+
+- Materials
+
+- Equipment
+
+- Approval
+
+- Troubleshooting
+
+- Document Control
+
+## Images
+
+### Features
+
+- File upload
+- Paste
+- Drag/drop
+- Resize
+- Alignment
+- Border
+- Caption
+- Automatic figure numbering
+- Alt text
+- Delete
+- Move
+
+### Asset Model
+
+- Separate from editor UI state
+- MIME type validation
+- Client-side only processing
+
+## Equations
+
+### Features
+
+- Symbol insertion
+
+- Superscripts
+
+- Subscripts
+
+- Common mathematical expressions
+
+- Equation insertion UI
+
+- KaTeX rendering
+
+
+## Procedure Steps
+
+### Features
+
+- Step with action
+
+- Expected result
+
+- Warning
+
+- Note
+
+- Image attachment
+
+- Add step
+
+- Delete step
+
+- Duplicate step
+
+- Reorder steps
+
+- Automatic numbering
+
+
+## Callouts
+
+### Types
+
+- Information
+
+- Note
+
+- Warning
+
+- Danger
+
+- Tip
+
+
+### Features
+
+- Reusable component
+
+- Inherit template styling
+
+- Consistent appearance
+
+
+## Automatic Numbering
+
+### Features
+
+- Section numbering
+
+- Subsection numbering
+
+- Procedure step numbering
+
+- Table numbering
+
+- Figure numbering
+
+- Recalculate after reordering
+
+
+## Table of Contents
+
+### Features
+
+- Live TOC from headings
+
+- Respond to heading changes
+
+- Separate structural TOC and final TOC
+
+
+## Revision History
+
+### Features
+
+- Version tracking
+
+- Date tracking
+
+- Description
+
+- Prepared By
+
+- Reviewed By
+
+- Approved By
+
+- Add revision
+
+- Edit revision
+
+- Delete revision
+
+- Reorder revisions
+
+
+
+## Approval
+
+### Features
+
+- Prepared By
+
+- Reviewed By
+
+- Approved By
+
+- Role column
+
+- Name column
+
+- Signature column
+
+- Date column
+
+- Text signature
+
+- Uploaded signature image
+
+- Blank signature area
+
+
+
+## Import
+
+### Markdown Import
+
+- Headings
+
+- Paragraphs
+
+- Lists
+
+- Tables where supported
+
+- Basic formatting
+
+- Code blocks where relevant
+
+
+### DOCX Import
+
+- Use Mammoth.js
+
+- Preserve text
+
+- Preserve headings
+
+- Preserve lists
+
+- Preserve tables
+
+- Preserve images
+
+- Preserve basic formatting
+
+
+### Safety
+
+- HTML sanitization for pasted/imported HTML
+
+- No execution of imported scripts
+
+- Validate file types
+
+- Warn about unsupported content
+
+
+### Import Report
+
+Show summary:
+
+- Number of headings detected
+
+- Number of tables imported
+
+- Number of images imported
+
+- Number of paragraphs imported
+
+- Number of formatting elements simplified
+
+
+
+## Drag and Drop
+
+### Features
+
+- Drag table rows
+
+- Drag procedure steps
+
+- Drag outline sections
+
+- Keyboard alternative for accessibility
+
+
+
+## Copy and Paste
+
+### Features
+
+- Word/Google Docs/browser rich-text paste
+
+- Paste as plain text option
+
+- Paste as HTML option
+
+- HTML sanitization
+
+- Safe handling of pasted tables/images
+
+
+
+## Search and Replace
+
+### Features
+
+- Search text
+
+- Replace text
+
+- Replace all
+
+- Case-sensitive matching
+
+- Whole-word matching
+
+- Match count
+
+- Highlighted matches
+
+
+
+## Validation
+
+### Severity Levels
+
+- ERROR
+
+- WARNING
+
+- INFO
+
+
+### Validations
+
+- Required metadata
+
+- Required title
+
+- Required document ID where configured
+
+- Version validation
+
+- Required SOP sections
+
+- Empty headings
+
+- Images without alt text
+
+- Images without captions
+
+- Missing approval information
+
+- Broken/empty tables
+
+- Missing revision history where applicable
+
+- Invalid dates
+
+- Duplicate document IDs among local drafts where practical
+
+
+
+### Display
+
+- Finding
+
+- Severity
+
+- Affected location
+
+- Explanation
+
+- Remediation suggestion
+
+
+
+### Readiness Summary
+
+- Overall document status
+
+- Number of errors/warnings
+
+
+
+## Preview
+
+### Features
+
+- Document rendering
+
+- Page boundaries
+
+- Margins
+
+- Typography
+
+- Tables
+
+- Images
+
+- Callouts
+
+- TOC
+
+- Headers/footers
+
+- Page numbers
+
+
+### Controls
+
+- Zoom in/out
+
+- Page navigation
+
+- Fit to width
+
+- Fit to page
+
+
+### Page Breaking
+
+- Keep headings with following content where practical
+
+- Avoid awkward callout splits
+
+- Avoid unnecessary procedure-step splits
+
+- Avoid unnecessary table-row splits
+
+
+
+## DOCX Export
+
+### Features
+
+- DOCX file generation
+
+- Browser-compatible library
+
+
+### Content
+
+- Document metadata
+
+- Headings
+
+- Lists
+
+- Tables
+
+- Images
+
+- Captions
+
+- Numbering
+
+- Headers
+
+- Footers
+
+- Page settings
+
+- Template styling
+
+- Revision history
+
+- Approval section
+
+- Equations where technically possible
+
+
+### Export Dialog
+
+- Document name
+
+- Format (DOCX only)
+
+- Editable filename
+
+- Cancel
+
+- Export
+
+
+### Filename
+
+- Format: DocumentID_Title_vVersion
+
+- Sanitize invalid filesystem characters
+
+
+### Feedback
+
+- Preparing DOCX...
+
+- Success/failure message
+
+
+### Limitations
+
+- Report fidelity limitations honestly
+
+- Never claim perfect Word compatibility
+
+
+
+## PDF Export
+
+### Features
+
+- PDF file generation
+
+- Browser-compatible library
+
+
+### Content
+
+- Page dimensions
+
+- Margins
+
+- Typography
+
+- Headings
+
+- Tables
+
+- Images
+
+- Callouts
+
+- Headers
+
+- Footers
+
+- Page numbers
+
+- Colors
+
+- Document structure
+
+
+### Export Dialog
+
+- Document name
+
+- Format (PDF only)
+
+- Editable filename
+
+- Cancel
+
+- Export
+
+
+### Feedback
+
+- Progress feedback
+
+- Success/failure message
+
+
+### Limitations
+
+- Report unavoidable browser/library limitations honestly
+
+
+
+## Local Persistence
+
+### Features
+
+- Create draft
+
+- Save
+
+- Autosave
+
+- Load
+
+- Recover
+
+- Delete
+
+- Recent documents
+
+- Modified timestamps
+
+- Save status
+
+
+
+### Save States
+
+- Saving...
+
+- Saved just now
+
+- Unsaved changes
+
+
+
+### Autosave
+
+- Debounced
+
+- Configurable interval
+
+
+
+### IndexedDB
+
+- Document data
+
+- Assets
+
+
+
+### LocalStorage
+
+- Lightweight settings
+
+
+
+### Error Handling
+
+- Storage unavailable
+
+- Storage quota exceeded
+
+- Corrupted stored data
+
+- Failed save
+
+- Failed load
+
+
+
+### Unsaved Changes
+
+- Protection for destructive navigation where appropriate
+
+- Confirmation dialogs where appropriate
+
+
+
+## Project Files (.sopstudio)
+
+### Features
+
+- Project package containing:
+
+  - project.json
+
+  - document.json
+
+  - settings.json
+
+  - assets/
+
+- Save Project
+
+- Download .sopstudio
+
+- Open Project
+
+- Validate package
+
+- Load document
+
+- Load assets
+
+- Continue editing
+
+
+
+### Preservation
+
+- SOP content
+
+- Metadata
+
+- Template
+
+- Branding
+
+- Page settings
+
+- Revision history
+
+- Approval
+
+- Images/assets
+
+- Formatting configuration
+
+
+
+### Validation
+
+- Validate imported project files
+
+- Reject malformed packages
+
+- Never execute package content as code
+
+
+
+### Serialization
+
+- JSZip for packaging
+
+- JSON for project data
+
+
+
+## Undo/Redo
+
+### Features
+
+- Full edit history
+
+- Ctrl/Cmd+Z
+
+- Ctrl/Cmd+Y
+
+- History management
+
+
+
+## Accessibility
+
+### Features
+
+- Keyboard navigation
+
+- Proper labels
+
+- ARIA where appropriate
+
+- Focus management
+
+- Visible focus indicators
+
+- Color contrast compliance
+
+- Accessible dialogs
+
+- Accessible tables
+
+- Alt text for images
+
+- Keyboard alternatives to drag/drop
+
+- Status communication without relying only on color
+
+
+
+## Responsive Design
+
+### Desktop
+
+- Three-panel editor layout
+
+
+### Tablet/Smaller
+
+- Convert side panels to tabs/drawers
+
+- Retain editing capability
+
+- Avoid forcing desktop layout onto small screens
+
+
+
+## Settings
+
+### Document Defaults
+
+- Default template
+
+- Default font
+
+- Default page size
+
+- Default margins
+
+- Default orientation
+
+
+### Editor
+
+- Autosave
+
+- Spellcheck
+
+- Formatting marks if implemented
+
+
+### Appearance
+
+- Light theme
+
+- Dark theme
+
+- System theme
+
+
+### Privacy
+
+- Documents are processed and stored locally in your browser. SOPStudio does not require an account or upload your documents to a server.
+
+
+
+## Error Handling
+
+### Features
+
+- Error boundaries
+
+- Clear error messages
+
+- User-friendly error UI
+
+- Recovery options
+
+
+
+### Error Types
+
+- Import failure
+
+- Export failure
+
+- Storage failure
+
+- Malformed project file
+
+- Invalid image
+
+- Unsupported content
+
+- Corrupted document state
+
+
+
+### Feedback
+
+- Clear error messages
+
+- Actionable suggestions
+
+- Recovery options
+
+
+
+## Security
+
+### Features
+
+- No document uploads
+
+- No hidden remote calls
+
+- HTML sanitization
+
+- Validate file types
+
+- Validate MIME types
+
+- Reject executable content
+
+- Treat imported files as untrusted
+
+- No analytics exposing document content
+
+
+
+### Input Validation
+
+- File type validation
+
+- MIME type validation
+
+- Size limits
+
+- Content validation
+
+
+
+## Performance
+
+### Features
+
+- Efficient editor rendering
+
+- Lazy loading where useful
+
+- Optimized autosave
+
+- Optimized preview generation
+
+- Optimized export performance
+
+
+
+### Optimization Targets
+
+- Editor rerenders
+
+- Large documents
+
+- Large tables
+
+- Image processing
+
+- Autosave frequency
+
+- Preview generation
+
+- Export performance
+
+
+
+## Component Architecture
+
+### Component Organization
+
+- Feature-based organization
+
+- Shared components
+
+- Presentation vs container components
+
+
+
+### State Management
+
+- Local state within components
+
+- Context for global state
+
+- No global state management library
+
+
+
+## Document Rendering
+
+### Features
+
+- Separate rendering from editing
+
+- Reusable rendering rules
+
+- Support for different formats
+
+
+
+### Rendering Components
+
+- DocumentCanvas
+
+- DocumentPage
+
+- Rendered content blocks
+
+
+
+
+## Page Breaks
+
+### Features
+
+- Smart page breaking
+
+- Keep content together where practical
+
+- Avoid awkward splits
+
+
+
+
+## Import/Export Limitations
+
+### Honest Reporting
+
+- Report what cannot be imported/exported
+
+- Report fidelity limitations
+
+- Provide workarounds where possible
+
+
+
+
+## MVP Priorities
+
+### Priority Order
+
+
+1. Document model
+2. Editor
+3. Persistence
+4. Preview
+5. Export
+
+
+### Minimal Viable Product
+
+- Core document editing
+
+- Basic templates
+
+- Local persistence
+
+- Preview
+
+- DOCX export
+
+
+
+
+## Testing
+
+### Types
+
+- Unit tests
+
+- Integration tests
+
+- UI tests
+
+
+
+### Coverage
+
+- Important logic
+
+- Edge cases
+
+- Error paths
+
+
+
+
+## Development Approach
+
+### Incremental
+
+- One stage at a time
+
+- Verify before proceeding
+
+- Do not skip stages
+
+- Do not combine stages
+
+- Do not rebuild working functionality
+
+- Preserve existing functionality
+
+- Fix prerequisite defects only when needed
+
+
+
+### Quality
+
+- Tests for important logic
+
+- Build verification
+
+- Manual verification
+
+- Inspect git diff
+
+- Update progress file
+
+- Record incomplete work
+
+- State exactly what is complete
+
+- State next recommended prompt
+
+
+
+### Documentation
+
+- Progress tracking
+
+- Decision recording
+
+- Acceptance criteria
+
+
+
+### Verification
+
+- Run tests
+
+- Run type checking
+
+- Run lint
+
+- Run production build
+
+- Manual verification
+
+- Inspect git diff
+
+- Update progress file
+
+- Record incomplete work
+
+- State exactly what is complete
+
+- State next recommended prompt
+
+
+
+### Stop After Each Stage
+
+- Do not implement the next stage
+
+- The progress file must always describe the actual repository state, not the intended state.
+
+
+
+## UX Rules
+
+### Feedback
+
+- Every major operation shows feedback
+
+- Clear success/error messages
+
+- Loading states
+
+
+
+### Confirmation
+
+- Destructive actions require confirmation
+
+- Unsaved change warnings
+
+
+
+### Empty States
+
+- Clear messaging
+
+- Helpful suggestions
+
+- Actionable next steps
+
+
+
+
+## Confirmation Dialogs
+
+### Features
+
+- Destructive action confirmation
+
+- Unsaved changes warning
+
+- Customizable content
+
+
+
+### UI
+
+- Modal dialog
+
+- Clear message
+
+- Confirm/Cancel buttons
+
+
+
+
+## Unsaved Changes
+
+### Features
+
+- Detect unsaved changes
+
+- Warn before navigation
+
+- Option to save or discard
+
+
+
+### Protection
+
+- Block navigation without confirmation
+
+- Offer save option
+
+
+
+
+## Privacy
+
+### Messaging
+
+- Your documents remain on this device. No account or server upload is required.
+
+- Documents are processed and stored locally in your browser.
+
+
+
+### Guarantees
+
+- No document uploads
+
+- No analytics exposing document content
+
+- Client-side only processing
+
+
+
+
+## Final Quality Bar
+
+### Requirements
+
+- Reliable editing
+
+- Professional UX
+
+- Document fidelity
+
+- Preview/export consistency
+
+- Persistence reliability
+
+- Validation correctness
+
+- Accessibility
+
+- Responsive behavior
+
+- Error handling
+
+- Maintainability
+
+
+
+
+### Final Deliverables
+
+- Complete application
+
+- Working templates
+
+- Working editor
+
+- Working import
+
+- Working export
+
+- Working preview
+
+- Working persistence
+
+- Complete acceptance criteria
+
+- Comprehensive tests
+
+
+
+
+## README Requirements
+
+### Content
+
+- Product overview
+
+- Architecture
+
+- Technology choices
+
+- Installation
+
+- Development commands
+
+- Production build
+
+- Document model
+
+- Template system
+
+- Persistence
+
+- Import limitations
+
+- Export limitations
+
+- Browser compatibility
+
+- Privacy model
+
+- Known limitations
+
+- Future extension points
+
+
+
+
+## Final Coding-Agent Instructions
+
+### Agent Behavior
+
+- Read control files first
+
+- Inspect current implementation
+
+- Determine earliest incomplete stage
+
+- Follow incremental development
+
+- Verify before proceeding
+
+- Record state before stopping
+
+
+
+### Control Files
+
+- SOPStudio_MASTER_SPEC.md (authoritative)
+
+- SOPStudio_PROGRESS.md (implementation state)
+
+- SOPStudio_DECISIONS.md (architectural decisions)
+
+- SOPStudio_ACCEPTANCE_MATRIX.md (acceptance criteria)
+
+
+
+### Development Rules
+
+- Implement only assigned stage
+
+- Do not skip stages
+
+- Do not combine stages
+
+- Do not rebuild working functionality
+
+- Preserve existing functionality
+
+- Fix prerequisite defects only when needed
+
+
+
+### Verification
+
+- Run tests
+
+- Run type checking
+
+- Run lint
+
+- Run production build
+
+- Manual verification
+
+- Inspect git diff
+
+- Update progress file
+
+- Record incomplete work
+
+- State exactly what is complete
+
+- State next recommended prompt
+
+
+
+### Stop After Each Stage
+
+- Do not implement the next stage
+
+- The progress file must always describe the actual repository state, not the intended state.
+
+
+
+## Stage Dependency Map
+
+The intended dependency order is:
+
+STAGE-00
+  ↓
+STAGE-01
+  ↓
+STAGE-02
+  ↓
+STAGE-03
+  ↓
+STAGE-04
+  ↓
+STAGE-05
+  ↓
+STAGE-06
+  ↓
+STAGE-07
+  ↓
+STAGE-08
+  ↓
+STAGE-09
+  ↓
+STAGE-10
+  ↓
+STAGE-11
+  ↓
+STAGE-12
+  ↓
+STAGE-13
+  ↓
+STAGE-14
+  ↓
+STAGE-15
+  ↓
+STAGE-16
+  ↓
+STAGE-17
+  ↓
+STAGE-18
+  ↓
+STAGE-19
+  ↓
+STAGE-20
+  ↓
+STAGE-21
+  ↓
+STAGE-22
+  ↓
+STAGE-23
+  ↓
+STAGE-24
+
+The particularly important architectural sequence is:
+
+Document Model
+  ↓
+Editor
+  ↓
+Structured Content
+  ↓
+Persistence
+  ↓
+Import
+  ↓
+Rendering
+  ↓
+DOCX/PDF Export
+  ↓
+Validation
+  ↓
+Hardening
+
+This prevents the common AI-agent failure mode of building the export UI before there is a stable canonical document model.
